@@ -72,6 +72,10 @@ blob_fixups: blob_fixups_user_type = {
         .regex_replace(r'\n[ \t]*<route type="mix" sink="Multiroute"\s+sources="virtual_deep_buffer"/>', '')
         .regex_replace(r',virtual_deep_buffer', '')
         .regex_replace(r' audio/vnd\.mi\.mihc', ''),
+    # Allow a second capture session next to an active one (e.g. ambient music recognition
+    # or a voice assistant while another app records); HyperOS keeps it off for this SKU
+    'odm/etc/audio/sku_canoe/resourcemanager_canoe_mtp.xml': blob_fixup()
+        .regex_replace(r'<param concurrent_capture="false" />', '<param concurrent_capture="true" />'),
     # Stock XML declaration is malformed ("<?xml=version"), which the build's xmllint check rejects
     (
         'odm/etc/camera/snsc_bokeh_motiontuning.xml',
