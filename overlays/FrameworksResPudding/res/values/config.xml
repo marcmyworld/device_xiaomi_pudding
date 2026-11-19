@@ -72,6 +72,13 @@
     <!-- Always-on display: available, off by default -->
     <bool name="config_dozeAlwaysOnDisplayAvailable">true</bool>
     <bool name="config_dozeAlwaysOnEnabled">false</bool>
+    <!-- Shift the always-on display around to protect the OLED panel from burn-in -->
+    <bool name="config_enableBurnInProtection">true</bool>
+    <integer name="config_burnInProtectionMaxRadius">70</integer>
+    <integer name="config_burnInProtectionMinHorizontalOffset">-15</integer>
+    <integer name="config_burnInProtectionMaxHorizontalOffset">15</integer>
+    <integer name="config_burnInProtectionMinVerticalOffset">-40</integer>
+    <integer name="config_burnInProtectionMaxVerticalOffset">40</integer>
     <integer name="config_screenBrightnessDoze">17</integer>
 
     <!-- Fingerprint unlock with the screen off: the touch controller keeps detecting a
