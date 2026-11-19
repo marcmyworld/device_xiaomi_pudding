@@ -1441,6 +1441,9 @@ odm/lib64/vendor.xiaomi.hardware.camera.mivimessage-V1-ndk.so
 odm/lib64/vendor.xiaomi.hardware.postprocservice-V1-impl.so;DISABLE_DEPS;REQUIRED=libgui,libnativewindow,libgralloctypes,android.hardware.graphics.allocator-V2-ndk
 odm/lib64/vendor.xiaomi.hardware.postprocservice-V1-ndk.so
 
+# Consumer IR: the consumerir HAL module behind the stock IR service of device_xiaomi_sm8850-common
+odm/lib64/hw/consumerir.qcom.so
+
 # DRM
 odm/etc/vintf/manifest/misecmedia.xml
 
