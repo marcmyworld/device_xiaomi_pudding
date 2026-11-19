@@ -1441,6 +1441,22 @@ odm/lib64/vendor.xiaomi.hardware.camera.mivimessage-V1-ndk.so
 odm/lib64/vendor.xiaomi.hardware.postprocservice-V1-impl.so;DISABLE_DEPS;REQUIRED=libgui,libnativewindow,libgralloctypes,android.hardware.graphics.allocator-V2-ndk
 odm/lib64/vendor.xiaomi.hardware.postprocservice-V1-ndk.so
 
+# Camera - algorithm libraries the camera components and the camera core load by name
+# (dlopen), so dependency tracing does not see them
+odm/lib64/libhdr_stub.so
+odm/lib64/libhybrid.so
+odm/lib64/libiccprofile.so
+odm/lib64/libjpege.so
+odm/lib64/libmfec.so
+odm/lib64/libmmfp.so
+odm/lib64/libqll.so
+odm/lib64/libqllengine.so
+odm/lib64/libscorr.so
+odm/lib64/libsfeShiftExtrapolation.so
+odm/lib64/libswEF.so;DISABLE_DEPS;REQUIRED=libhidltransport,libqti_vndfwk_detect,android.hardware.graphics.common@1.2,android.hardware.graphics.mapper@2.1,libdmabufheap,libgralloccore,libgrallocutils,libmapperutils,android.hardware.graphics.common@1.1,libdisplayconfig.qti,libgralloc.qti,libgralloctypes,android.hardware.graphics.allocator-V2-ndk
+odm/lib64/libswregistrationalgo.so
+odm/lib64/libvideoml.so
+
 # Consumer IR: the consumerir HAL module behind the stock IR service of device_xiaomi_sm8850-common
 odm/lib64/hw/consumerir.qcom.so
 
