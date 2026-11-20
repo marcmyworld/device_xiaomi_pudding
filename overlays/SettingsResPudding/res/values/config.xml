@@ -29,4 +29,10 @@
     <!-- The Qualcomm RIL rejects network scans longer than 254 s (INVALID_ARGUMENTS); the
          Settings default of 300 s breaks manual network selection -->
     <integer name="config_network_scan_helper_max_search_time_sec">254</integer>
+
+    <!-- Let the user choose between the peak refresh rate and 60 Hz -->
+    <bool name="config_show_smooth_display">true</bool>
+
+    <!-- The vibrator supports amplitude control: offer low, medium and high intensities -->
+    <integer name="config_vibration_supported_intensity_levels">3</integer>
 </resources>
