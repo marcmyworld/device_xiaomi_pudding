@@ -111,6 +111,7 @@ blob_fixups: blob_fixups_user_type = {
         'odm/lib64/com.xiaomi.plugin.ecdengine.so',
         'odm/lib64/com.xiaomi.stubv1.camx.so',
         'odm/lib64/hw/camera.qcom.core.so',
+        'odm/lib64/hw/displayfeature.default.so',
         'odm/lib64/libcamxdumpinforecorder.so',
         'odm/lib64/libmiXmlParser.so',
         'odm/lib64/libmicamera_aidl_provider.so',
