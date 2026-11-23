@@ -2992,15 +2992,6 @@ odm/lib64/libtouchreport_sensor.so
 # USB
 odm/etc/acdbdata/Mi/HLCNet_USB_sett7_0016_2000.eai
 
-# Vibrator
-odm/bin/hw/vendor.xiaomi.hardware.vibratorfeature.service;DISABLE_DEPS;REQUIRED=libtinyalsa,libpalclient,android.hardware.vibrator-V2-ndk
-odm/etc/init/vendor.xiaomi.hardware.vibratorfeature.service.rc
-odm/etc/permissions/vendor.hardware.vibratorfeature-permission.xml
-odm/etc/vintf/manifest/vendor.xiaomi.hardware.vibratorfeature.service.xml
-odm/lib64/libaachaptics.so
-odm/lib64/libagmdevice.so
-odm/lib64/vendor.hardware.vibratorCL.impl.so;DISABLE_DEPS;REQUIRED=libpalclient,android.hardware.vibrator-V2-ndk
-
 # DSP skeletons and AI models: found through the stock vendor -> odm symlinks
 # (loaded by the DSP or by path, so not visible to dependency tracing)
 odm/lib/rfsa/adsp/libSnpeHtpV81Skel.so;SYMLINK=vendor/lib/rfsa/adsp/libSnpeHtpV81Skel.so
