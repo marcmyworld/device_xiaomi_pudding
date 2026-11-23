@@ -66,6 +66,10 @@
     <!-- Double tap to wake: the power HAL switches it in the touch controller -->
     <bool name="config_supportDoubleTapWake">true</bool>
 
+    <!-- Touch feedback (keyboard, gestures) at the low intensity by default: the QTI vibrator
+         HAL plays the full strength of this motor's click -->
+    <integer name="config_defaultHapticFeedbackIntensity">1</integer>
+
     <!-- SystemUI doze, which listens to the UDFPS sensor while the screen is off -->
     <string name="config_dozeComponent" translatable="false">com.android.systemui/com.android.systemui.doze.DozeService</string>
 
