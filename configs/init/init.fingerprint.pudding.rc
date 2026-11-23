@@ -1,5 +1,4 @@
-# Device nodes and data directories of the fingerprint stack, as set up by the stock
-# init.mfp-daemon.aidl.rc (OS3.0.335.0.XPCEUXM) for the HAL modules
+# Fingerprint nodes and directories
 
 on early-boot
     chown system graphics /sys/bus/platform/devices/soc:xiaomi_fingerprint/fingerdown

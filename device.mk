@@ -9,20 +9,19 @@ $(call inherit-product, device/xiaomi/sm8850-common/common.mk)
 # Inherit the proprietary files
 $(call inherit-product, vendor/xiaomi/pudding/pudding-vendor.mk)
 
-# Kernel - stock prebuilt image from the kernel repo (the common tree sets
-# TARGET_NO_KERNEL_OVERRIDE, so it is not installed by the LineageOS kernel build)
+# Prebuilt Kernel
 PRODUCT_COPY_FILES += \
     device/xiaomi/pudding-kernel/kernel:kernel
 
-# Camera: the MIUI camera (device/xiaomi/miuicamera-pudding) replaces the AOSP camera apps
+# Camera
 $(call inherit-product-if-exists, device/xiaomi/miuicamera-pudding/miuicamera.mk)
 
-# Fingerprint: device nodes and the module's extension interface
+# Fingerprint
 PRODUCT_PACKAGES += \
     init.fingerprint.pudding.rc \
     vendor.qti.hardware.fingerprint.pudding.xml
 
-# KeyMint: the Thales StrongBox KeyMint (odm) implements KeyMint V3
+# KeyMint
 PRODUCT_PACKAGES += \
     android.hardware.security.keymint-V3-ndk
 
@@ -39,9 +38,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_SOONG_NAMESPACES += \
     $(LOCAL_PATH)
 
-# Vendor variants of the libraries that stock vendor and odm blobs link. Blobs with
-# DISABLE_DEPS only list them in REQUIRED, which installs the system variant, and the
-# vendor linker namespace cannot load those.
+# Vendor variants of libraries required by stock blobs with DISABLE_DEPS
 PRODUCT_PACKAGES += \
     android.hardware.biometrics.common.thread.vendor \
     android.hardware.biometrics.common.util.vendor \

@@ -1,77 +1,56 @@
-# device_xiaomi_pudding
+# Device Tree for Xiaomi 17 (pudding)
 
-<p align="center"><img src="pudding.png" alt="Xiaomi 17" width="420"></p>
-<p align="center"><sub>Xiaomi 17 (image: Xiaomi)</sub></p>
+<p align="center">
+  <img src="./docs/pudding.png" alt="Xiaomi 17" width="420">
+</p>
+<p align="center"><sub>Xiaomi 17 (source: Xiaomi)</sub></p>
 
-Device tree for the **Xiaomi 17** (`pudding`, model 25113PN0EG, Snapdragon 8 Elite Gen 5 /
-SM8850). Built on **LineageOS 24.0** (Android 17) as `lineage_pudding`.
+## Spec Sheet
 
-> **Status: bring-up. Boots to LineageOS; hardware support is being tested.**
+| Feature                 | Specification                                                              |
+| :---------------------- | :--------------------------------                                          |
+| CPU                     | 2x4.6 GHz Oryon V3 Phoenix L + 6x3.62 GHz Oryon V3 Phoenix M               |
+| Chipset                 | Qualcomm SM8850-AC Snapdragon 8 Elite Gen 5 (3 nm)                         |
+| GPU                     | Adreno 840                                                                 |
+| Memory                  | 12 GB / 16 GB LPDDR5X                                                      |
+| Shipped Software        | Android 16, HyperOS 3                                                      |
+| Storage                 | 256 GB / 512 GB / 1 TB UFS 4.1                                             |
+| Battery                 | Si/C Li-Ion: 6330mAh (Global) or 7000mAh (China)                           |
+| Dimensions              | 151.1 x 71.8 x 8.1 mm (5.95 x 2.83 x 0.32 in)                              |
+| Display                 | 6.3 inches, LTPO AMOLED, 120Hz, 1220 x 2656 pixels, ~460ppi                |
+| Rear Camera             | 50 MP, f/1.7, 23mm (wide), 1.31/1", 1.2µm, dual pixel PDAF, OIS          |
+|                         | 50 MP, f/2.0, 60mm (telephoto), 1/2.76", PDAF (10cm - ∞), OIS, 2.6x zoom   |
+|                         | 50 MP, f/2.4, 17mm, 102˚ (ultrawide), 1/2.88", 0.61µm                     |
+| Front Camera            | 50 MP, f/2.2, 21mm (wide), AF                                              |
+| Release Date            | September 2025 (China)                                                     |
 
-## Layout
-- Series-wide configuration and the vendor-partition blobs:
-  [device_xiaomi_sm8850-common](https://github.com/xiaomi17-pudding-dev/device_xiaomi_sm8850-common).
-- This tree: screen density, OTA assert, odm props, the device part of the kernel cmdline,
-  the product (`lineage_pudding.mk`) and the **odm-partition** blobs (camera, touch, sensors,
-  audio calibration, …), listed in `proprietary-files.txt`.
-- `fingerprint/`: device nodes of the ultrasonic under-display sensor and the extension
-  interface its HAL module registers; the service itself is built by the common tree.
-- Kernel: prebuilt stock GKI, DTBs and modules from
-  [device_xiaomi_pudding-kernel](https://github.com/xiaomi17-pudding-dev/device_xiaomi_pudding-kernel).
-- Blobs: [vendor_xiaomi_pudding](https://gitlab.com/xiaomi17-pudding-dev/vendor_xiaomi_pudding) (GitLab).
-- MIUI camera app, its libraries and properties:
-  [device_xiaomi_miuicamera-pudding](https://github.com/xiaomi17-pudding-dev/device_xiaomi_miuicamera-pudding),
-  inherited from `device.mk` (the camera HAL blobs stay in this tree).
+## Building LineageOS
 
-## Source firmware
-HyperOS **OS3.0.335.0.XPCEUXM** (EEA global), odm build
-`Xiaomi/pudding_global/pudding:16/BQ2A.260225.001-BP2A.250705.008/OS3.0.335.0.XPCMI:user/release-keys`.
+Clone the device manifest into `.repo/local_manifests/`:
+```bash
+git clone https://github.com/xiaomi17-pudding-dev/local_manifests_pudding .repo/local_manifests/pudding.xml
+```
 
-## Build
-See [local_manifests_pudding](https://github.com/xiaomi17-pudding-dev/local_manifests_pudding).
+Initialize the build environment and start compilation:
 
-## Updating to a new firmware
-The trees, the blobs and the prebuilt kernel always come from **one** stock firmware, and the
-phone must run that firmware's bootloader, modem and other firmware partitions. To move to a
-newer HyperOS release:
+```bash
+source build/envsetup.sh
+lunch lineage_pudding-user
+m bacon
+```
 
-1. **Unpack** the official fastboot ROM: `super.img` (`lpunpack`), then the EROFS images of
-   `vendor`, `odm`, `system`, `system_ext`, `product`, `vendor_dlkm` and `system_dlkm` into one
-   directory, plus the boot images (`boot`, `init_boot`, `vendor_boot`, `dtbo`).
-2. **Kernel first.** In
-   [device_xiaomi_pudding-kernel](https://github.com/xiaomi17-pudding-dev/device_xiaomi_pudding-kernel)
-   run `./extract-files.sh <unpacked-firmware>` (kernel image, DTBs, DTBO and the
-   `vendor_boot`/`vendor_dlkm`/`system_dlkm` modules with their load lists). Modules and kernel
-   only work as a matched set.
-3. **Blobs.** In an Android source tree:
+Or use the build command specified by your rom.
+
+## Generating the vendor trees
+
+1. **Extract Blobs:** Run the extract script pointing to the unpacked stock dump:
    ```bash
-   cd device/xiaomi/pudding
-   ./extract-files.py <unpacked-firmware>
+   ./extract-files.py <path-to-unpacked-firmware>
    ```
-   This extracts the files of both `proprietary-files.txt` (common and device) from the new
-   firmware; `git diff` in `vendor/xiaomi/sm8850-common` and `vendor/xiaomi/pudding` then shows
-   which blobs changed. Review them file by file. Files missing from the new firmware make the
-   extraction fail and must be removed (or replaced) on purpose; new services need a new entry.
-   An entry may be pinned (`|<sha1>`) only to keep a blob from another firmware on purpose,
-   with a comment saying why: extraction keeps the pinned version instead of the new one.
-   Entries marked `DISABLE_CHECKELF` (libraries opened by file name whose stock `DT_SONAME`
-   differs) skip the build's dependency check: compare their `readelf -d` NEEDED entries
-   with the image by hand.
-   Run `./extract-files.py <unpacked-firmware>` in `device/xiaomi/miuicamera-pudding` as well
-   for the MIUI camera blobs (`vendor/xiaomi/miuicamera-pudding`).
-4. **Firmware-derived values.** Compare and update what is copied from the stock firmware:
-   - `VENDOR_SECURITY_PATCH` (BoardConfigCommon.mk) = stock `ro.vendor.build.security_patch`;
-   - `swinfo.fingerprint` (BoardConfig.mk) and the stock `vendor_boot` cmdline/bootconfig
-     (BoardConfigCommon.mk);
-   - `*.prop`, `config.fs`, overlays, `manifest.xml` and the compatibility matrices;
-   - `sepolicy/vendor` of the common tree (derived from the stock vendor policy);
-   - AIDL interface versions the blobs link against (`REQUIRED=` entries in the blob lists).
-5. **Commit** in the vendor repositories as "Update blobs to &lt;firmware&gt;" and tag them with
-   the firmware name; update the "Source firmware" sections of all READMEs.
+
+2. Your extracted blobs are saved within a vendor tree located at `vendor/xiaomi/pudding`.
 
 ## Credits
-Structure follows the LineageOS Xiaomi SM8550 trees
-([android_device_xiaomi_fuxi](https://github.com/LineageOS/android_device_xiaomi_fuxi)).
 Initially generated with [aospdtgen](https://github.com/SebaUbuntu/aospdtgen).
 
 ## License

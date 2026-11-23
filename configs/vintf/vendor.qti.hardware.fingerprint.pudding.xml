@@ -1,10 +1,6 @@
 <!--
      SPDX-FileCopyrightText: The LineageOS Project
      SPDX-License-Identifier: Apache-2.0
-
-     Services the stock Qualcomm fingerprint HAL module registers in the fingerprint service
-     process: the Qualcomm extension and a fallback fx.tunnel service (the module aborts if it
-     cannot register it).
 -->
 <manifest version="1.0" type="device">
     <hal format="aidl">

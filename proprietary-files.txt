@@ -1,7 +1,7 @@
-# All proprietary files from this list, unless pinned and noted otherwise, are from the
-# Xiaomi 17 (pudding) HyperOS OS3.0.335.0.XPCEUXM (EEA) fastboot ROM.
-# Odm: Xiaomi/pudding_global/pudding (ro.product.odm.device=pudding)
-# Device-specific = the odm partition; the shared vendor partition is in device_xiaomi_sm8850-common.
+#
+# SPDX-FileCopyrightText: The LineageOS Project
+# SPDX-License-Identifier: Apache-2.0
+#
 
 # Audio
 odm/bin/hw/dvs-aidl-service
@@ -1441,8 +1441,7 @@ odm/lib64/vendor.xiaomi.hardware.camera.mivimessage-V1-ndk.so
 odm/lib64/vendor.xiaomi.hardware.postprocservice-V1-impl.so;DISABLE_DEPS;REQUIRED=libgui,libnativewindow,libgralloctypes,android.hardware.graphics.allocator-V2-ndk
 odm/lib64/vendor.xiaomi.hardware.postprocservice-V1-ndk.so
 
-# Camera - algorithm libraries the camera components and the camera core load by name
-# (dlopen), so dependency tracing does not see them
+# Camera algorithm libraries
 odm/lib64/libhdr_stub.so
 odm/lib64/libhybrid.so
 odm/lib64/libiccprofile.so
@@ -1457,7 +1456,7 @@ odm/lib64/libswEF.so;DISABLE_DEPS;REQUIRED=libhidltransport,libqti_vndfwk_detect
 odm/lib64/libswregistrationalgo.so
 odm/lib64/libvideoml.so
 
-# Consumer IR: the consumerir HAL module behind the stock IR service of device_xiaomi_sm8850-common
+# Consumer IR
 odm/lib64/hw/consumerir.qcom.so
 
 # DRM
@@ -1527,8 +1526,7 @@ odm/lib64/vendor.xiaomi.hardware.seccam-V1-ndk.so
 product/etc/displayconfig/display_id_4630946555188253075.xml:vendor/etc/displayconfig/display_id_4630946555188253075.xml
 product/etc/displayconfig/display_id_4630947230830355603.xml:vendor/etc/displayconfig/display_id_4630947230830355603.xml
 
-# eSIM: Google's eSIM manager (LPA) from the stock mi_ext partition. The APK is extracted
-# only: the EuiccGoogle module in Android.bp installs it on products with Google apps.
+# eSIM
 mi_ext/product/etc/default-permissions/EuiccGoogle-default-permissions-google.xml:product/etc/default-permissions/EuiccGoogle-default-permissions-google.xml
 mi_ext/product/etc/permissions/EuiccGoogle-permissions.xml:product/etc/permissions/EuiccGoogle-permissions.xml
 mi_ext/product/priv-app/EuiccGoogle/EuiccGoogle.apk:product/priv-app/EuiccGoogle/EuiccGoogle.apk;EXTRACT_ONLY;FILEGROUP=EuiccGoogle_apk
@@ -1540,8 +1538,8 @@ odm/etc/vintf/manifest/android.hardware.biometrics.face-v4.xml
 odm/firmware/168_fingerprintRecord_P_RTP.bin
 odm/firmware/210_FingerprintUnlock_P_RTP.bin
 odm/lib64/hw/fingerprint.goodix_us2.so
-# Loaded by the hardware/xiaomi fingerprint service through libhardware, which looks for
-# fingerprint.<module>.default.so
+
+# Fingerprint extension HAL
 odm/lib64/hw/fingerprint.qcom_us.so:odm/lib64/hw/fingerprint.qcom_us.default.so;FIX_SONAME
 odm/lib64/libgf_hal.so
 odm/lib64/libmiface.so;DISABLE_DEPS;REQUIRED=libcamera2ndk_vendor,libdmabufheap,libdumpstateutil,libhidltransport,libmediandk,libnativewindow,libstagefright_foundation,libutilscallstack,android.hardware.biometrics.face-V4-ndk
@@ -1556,7 +1554,7 @@ odm/etc/vintf/manifest/vendor.qti.gnss-service.xml
 odm/lib64/vendor.qti.gnss-V8-ndk.so
 odm/lib64/vendor.qti.gnss-service.so
 
-# Health / power
+# Power
 odm/etc/UniperfHintMapsConfig.xml
 odm/etc/charger/BAA_config_common.json
 odm/etc/charger/BAA_config_pudding.json
@@ -1667,7 +1665,7 @@ odm/firmware/211_Charge_P_RTP.bin
 odm/firmware/74_ChargeWire_P_RTP.bin
 odm/firmware/75_ChargeWireless_P_RTP.bin
 
-# Keymint / security
+# KeyMint
 odm/bin/hw/android.hardware.security.keymint-service.strongbox-thales;DISABLE_DEPS;REQUIRED=lib_android_keymaster_keymint_utils_V3,libcppbor_external,libkeymaster_portable,android.se.omapi-V1-ndk
 odm/bin/hw/android.hardware.weaver-service.thales;DISABLE_DEPS;REQUIRED=android.hardware.weaver-V2-ndk
 odm/bin/hw/vendor.xiaomi.hardware.authsecretd
@@ -2893,7 +2891,7 @@ odm/firmware/96_nfcCard_P_RTP.bin
 odm/firmware/98_nfcCardSlow_P_RTP.bin
 odm/lib64/nfc_nci.st21nfc.st.so
 
-# Radio / IMS / data
+# Radio
 odm/bin/mbnota
 odm/bin/vsimd
 odm/etc/init/vendor.mbnota.rc
@@ -2969,8 +2967,8 @@ odm/etc/vintf/manifest/miaon_frame.xml
 odm/etc/vintf/manifest/vendor.xiaomi.camera.aon-impl.xml
 odm/etc/vintf/manifest/vendor.xiaomi.sensor.citsensorservice.aidl.xml
 odm/lib64/libmiSensorCtrl.so
-# Stock odm/etc/vintf/manifest.xml only declares ContextHub (merged from the QMI service
-# fragment); install it as that fragment instead of the top-level odm manifest
+
+# VINTF
 odm/etc/vintf/manifest.xml:odm/etc/vintf/manifest/android.hardware.contexthub-service.qmi.xml
 odm/lib64/sensors.touch.detect.so
 
@@ -2992,8 +2990,7 @@ odm/lib64/libtouchreport_sensor.so
 # USB
 odm/etc/acdbdata/Mi/HLCNet_USB_sett7_0016_2000.eai
 
-# DSP skeletons and AI models: found through the stock vendor -> odm symlinks
-# (loaded by the DSP or by path, so not visible to dependency tracing)
+# DSP / AI models
 odm/lib/rfsa/adsp/libSnpeHtpV81Skel.so;SYMLINK=vendor/lib/rfsa/adsp/libSnpeHtpV81Skel.so
 odm/lib64/qsn1nrt430.bin;SYMLINK=vendor/lib64/qsn1nrt430.bin
 odm/lib64/qsn1nrt43270.bin;SYMLINK=vendor/lib64/qsn1nrt43270.bin
