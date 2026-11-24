@@ -1,0 +1,10 @@
+# SPDX-FileCopyrightText: The LineageOS Project
+# SPDX-License-Identifier: Apache-2.0
+#
+# Novatek touch controller (nt38773_touch.ko). With the screen off it reports
+# KEY_WAKEUP for a double tap and KEY_GOTO for a single tap, each only while
+# that gesture is enabled in the controller. KEY_POWER as in Generic.kl.
+
+key 116   POWER
+key 143   WAKEUP
+key 354   WAKEUP

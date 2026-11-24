@@ -33,3 +33,16 @@ vintf_fragment {
     src: "configs/vintf/vendor.qti.hardware.fingerprint.pudding.xml",
     device_specific: true,
 }
+
+// Touch
+prebuilt_usr_keylayout {
+    name: "NVTCapacitiveTouchScreen.kl",
+    src: "configs/keylayout/NVTCapacitiveTouchScreen.kl",
+    device_specific: true,
+}
+
+prebuilt_usr_keylayout {
+    name: "Xiaomi_Touch_Input_0.kl",
+    src: "configs/keylayout/Xiaomi_Touch_Input_0.kl",
+    device_specific: true,
+}

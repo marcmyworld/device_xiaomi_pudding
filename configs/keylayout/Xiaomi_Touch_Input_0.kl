@@ -1,0 +1,10 @@
+# SPDX-FileCopyrightText: The LineageOS Project
+# SPDX-License-Identifier: Apache-2.0
+#
+# Touch input device of the Synaptics touch controller (synaptics_tcm2.ko),
+# registered by xiaomi_touch.ko. With the screen off it reports KEY_WAKEUP for
+# a double tap and KEY_GOTO for a single tap, each only while that gesture is
+# enabled in the controller.
+
+key 143   WAKEUP
+key 354   WAKEUP

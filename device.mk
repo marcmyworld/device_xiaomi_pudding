@@ -34,6 +34,11 @@ PRODUCT_PACKAGES += \
     SystemUIResPudding \
     WifiResPudding
 
+# Touch
+PRODUCT_PACKAGES += \
+    NVTCapacitiveTouchScreen.kl \
+    Xiaomi_Touch_Input_0.kl
+
 # Soong namespaces
 PRODUCT_SOONG_NAMESPACES += \
     $(LOCAL_PATH)
