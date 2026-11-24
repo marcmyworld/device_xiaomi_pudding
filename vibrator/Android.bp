@@ -1,0 +1,21 @@
+//
+// SPDX-FileCopyrightText: The LineageOS Project
+// SPDX-License-Identifier: Apache-2.0
+//
+
+cc_binary {
+    name: "vibratorfeature-wrapper",
+    relative_install_path: "hw",
+    device_specific: true,
+    init_rc: ["vibratorfeature-wrapper.rc"],
+    vintf_fragments: ["vibratorfeature-wrapper.xml"],
+    srcs: [
+        "Vibrator.cpp",
+        "service.cpp",
+    ],
+    shared_libs: [
+        "android.hardware.vibrator-V2-ndk",
+        "libbase",
+        "libbinder_ndk",
+    ],
+}

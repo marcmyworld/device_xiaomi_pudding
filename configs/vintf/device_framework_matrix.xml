@@ -5,6 +5,16 @@
 <!-- Vendor HALs of the stock firmware (OS3.0.335.0.XPCEUXM) that no common framework
      compatibility matrix declares, at the versions the stock services implement. -->
 <compatibility-matrix version="1.0" type="framework">
+    <!-- The stock vibrator HAL, renamed from IVibrator/default; vibratorfeature-wrapper
+         serves IVibrator/default on top of it -->
+    <hal format="aidl" optional="true">
+        <name>android.hardware.vibrator</name>
+        <version>2</version>
+        <interface>
+            <name>IVibrator</name>
+            <instance>xiaomi</instance>
+        </interface>
+    </hal>
     <hal format="aidl" optional="true">
         <name>com.fingerprints.fpc.extension</name>
         <version>1</version>

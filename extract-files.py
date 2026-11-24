@@ -76,6 +76,13 @@ blob_fixups: blob_fixups_user_type = {
     # or a voice assistant while another app records); HyperOS keeps it off for this SKU
     'odm/etc/audio/sku_canoe/resourcemanager_canoe_mtp.xml': blob_fixup()
         .regex_replace(r'<param concurrent_capture="false" />', '<param concurrent_capture="true" />'),
+    # The stock vibrator HAL serves IVibrator/xiaomi instead of IVibrator/default (same-length
+    # instance name); vibratorfeature-wrapper serves IVibrator/default on top of it
+    'odm/bin/hw/vendor.xiaomi.hardware.vibratorfeature.service': blob_fixup()
+        .binary_regex_replace(rb'/default\x00', b'/xiaomi\x00\x00'),
+    'odm/etc/vintf/manifest/vendor.xiaomi.hardware.vibratorfeature.service.xml': blob_fixup()
+        .regex_replace(r'<hal format="aidl" override="true">', '<hal format="aidl">')
+        .regex_replace(r'IVibrator/default', 'IVibrator/xiaomi'),
     # Stock XML declaration is malformed ("<?xml=version"), which the build's xmllint check rejects
     (
         'odm/etc/camera/snsc_bokeh_motiontuning.xml',

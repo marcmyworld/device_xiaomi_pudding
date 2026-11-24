@@ -34,6 +34,10 @@ PRODUCT_PACKAGES += \
     SystemUIResPudding \
     WifiResPudding
 
+# Vibrator
+PRODUCT_PACKAGES += \
+    vibratorfeature-wrapper
+
 # Touch
 PRODUCT_PACKAGES += \
     NVTCapacitiveTouchScreen.kl \
@@ -56,6 +60,7 @@ PRODUCT_PACKAGES += \
     android.hardware.security.keymint-V4-ndk.vendor \
     android.hardware.security.rkp-V3-ndk.vendor \
     android.hardware.security.sharedsecret-V1-ndk.vendor \
+    android.hardware.vibrator-V2-ndk.vendor \
     android.hardware.weaver-V2-ndk.vendor \
     android.se.omapi-V1-ndk.vendor \
     lib_android_keymaster_keymint_utils_V3.vendor \
