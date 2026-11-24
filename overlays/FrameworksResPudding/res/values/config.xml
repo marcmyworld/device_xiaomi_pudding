@@ -90,6 +90,10 @@
     <bool name="config_screen_off_udfps_enabled">true</bool>
     <string name="config_dozeUdfpsLongPressSensorType" translatable="false">org.lineageos.sensor.udfps</string>
 
+    <!-- Lift to wake: shows the "Lift to check phone" setting; XiaomiParts wakes the device
+         from the Xiaomi pickup sensor, which SystemUI's doze triggers cannot use -->
+    <bool name="config_dozePulsePickup">true</bool>
+
     <!-- Stock enables automatic brightness (FrameworksResCommon_Sys.apk) -->
     <bool name="config_automatic_brightness_available">true</bool>
 
