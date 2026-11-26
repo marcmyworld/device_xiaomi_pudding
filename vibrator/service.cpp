@@ -15,6 +15,7 @@
 
 using aidl::android::hardware::vibrator::IVibrator;
 using aidl::android::hardware::vibrator::Vibrator;
+using aidl::android::hardware::vibrator::VibratorTuner;
 
 namespace {
 
@@ -27,7 +28,7 @@ void onHalDied(void*) {
 }  // namespace
 
 int main() {
-    ABinderProcess_setThreadPoolMaxThreadCount(1);
+    ABinderProcess_setThreadPoolMaxThreadCount(2);
 
     const std::string halInstance = std::string(IVibrator::descriptor) + "/xiaomi";
     ndk::SpAIBinder halBinder(AServiceManager_waitForService(halInstance.c_str()));
@@ -43,6 +44,12 @@ int main() {
     auto vibrator = ndk::SharedRefBase::make<Vibrator>(hal);
     const std::string instance = std::string(IVibrator::descriptor) + "/default";
     CHECK_EQ(AServiceManager_addService(vibrator->asBinder().get(), instance.c_str()), STATUS_OK);
+
+    auto tuner = ndk::SharedRefBase::make<VibratorTuner>(vibrator);
+    const std::string tunerInstance = std::string(VibratorTuner::descriptor) + "/default";
+    if (AServiceManager_addService(tuner->asBinder().get(), tunerInstance.c_str()) != STATUS_OK) {
+        LOG(WARNING) << "Failed to register " << tunerInstance;
+    }
 
     ABinderProcess_joinThreadPool();
     return EXIT_FAILURE;  // should not be reached

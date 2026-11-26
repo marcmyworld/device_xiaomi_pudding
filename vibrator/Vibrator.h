@@ -6,6 +6,8 @@
 #pragma once
 
 #include <aidl/android/hardware/vibrator/BnVibrator.h>
+#include <aidl/vendor/xiaomi/hardware/vibratortuner/BnVibratorTuner.h>
+#include <android/binder_ibinder.h>
 
 #include <condition_variable>
 #include <mutex>
@@ -14,12 +16,17 @@
 namespace aidl::android::hardware::vibrator {
 
 // IVibrator/default on top of the stock Xiaomi HAL (IVibrator/xiaomi). Everything is forwarded,
-// except compositions: the stock HAL drops the scale of composed primitives, so each primitive
-// is played here as one of the HAL's tuned effects, at the strength that matches its scale.
+// except prebaked/composition mappings and runtime calibration configured via IVibratorTuner.
 class Vibrator : public BnVibrator {
   public:
+    using VibratorConfig = ::aidl::vendor::xiaomi::hardware::vibratortuner::VibratorConfig;
+
     explicit Vibrator(std::shared_ptr<IVibrator> hal);
     ~Vibrator() override;
+
+    VibratorConfig getConfig() const;
+    void setConfig(const VibratorConfig& config);
+    void resetConfig();
 
     ndk::ScopedAStatus getCapabilities(int32_t* _aidl_return) override;
     ndk::ScopedAStatus off() override;
@@ -54,17 +61,40 @@ class Vibrator : public BnVibrator {
 
   private:
     void playComposition(std::vector<CompositeEffect> composite,
+                         VibratorConfig config,
                          std::shared_ptr<IVibratorCallback> callback);
-    // Stops a running composition and waits for its thread
     void stopComposition();
-    // Waits up to timeoutMs; returns false when the composition was stopped
     bool waitFor(int32_t timeoutMs);
+    ndk::ScopedAStatus performWithGainLocked(Effect effect, int32_t gainPct,
+                                             const std::shared_ptr<IVibratorCallback>& callback,
+                                             int32_t* durationMs);
+    void sendAmplitudeExtLocked(float amplitude, int32_t mode);
 
     std::shared_ptr<IVibrator> mHal;
+    ndk::SpAIBinder mExtBinder;
     std::thread mThread;
     std::mutex mLock;
+    std::mutex mHalLock;
+    mutable std::mutex mConfigLock;
+    VibratorConfig mConfig;
     std::condition_variable mCv;
     bool mStop = false;
+};
+
+// Companion vendor AIDL service allowing XiaomiParts to inspect calibration telemetry and
+// switch haptic profiles or per-category waveforms/strengths at runtime.
+class VibratorTuner : public ::aidl::vendor::xiaomi::hardware::vibratortuner::BnVibratorTuner {
+  public:
+    explicit VibratorTuner(std::shared_ptr<Vibrator> vibrator);
+
+    ndk::ScopedAStatus getConfig(Vibrator::VibratorConfig* _aidl_return) override;
+    ndk::ScopedAStatus setConfig(const Vibrator::VibratorConfig& config) override;
+    ndk::ScopedAStatus resetToDefault() override;
+    ndk::ScopedAStatus getResonantFrequency(float* _aidl_return) override;
+    ndk::ScopedAStatus getQFactor(float* _aidl_return) override;
+
+  private:
+    std::shared_ptr<Vibrator> mVibrator;
 };
 
 }  // namespace aidl::android::hardware::vibrator

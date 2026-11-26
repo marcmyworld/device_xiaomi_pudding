@@ -4,4 +4,9 @@
         <version>2</version>
         <fqname>IVibrator/default</fqname>
     </hal>
+    <hal format="aidl">
+        <name>vendor.xiaomi.hardware.vibratortuner</name>
+        <version>1</version>
+        <fqname>IVibratorTuner/default</fqname>
+    </hal>
 </manifest>

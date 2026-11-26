@@ -18,4 +18,7 @@ cc_binary {
         "libbase",
         "libbinder_ndk",
     ],
+    static_libs: [
+        "vendor.xiaomi.hardware.vibratortuner-V1-ndk",
+    ],
 }

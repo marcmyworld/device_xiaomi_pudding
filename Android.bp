@@ -4,7 +4,10 @@
 //
 
 soong_namespace {
-    imports: ["vendor/xiaomi/pudding"],
+    imports: [
+        "device/xiaomi/sm8850-common",
+        "vendor/xiaomi/pudding",
+    ],
 }
 
 // EuiccGoogle (eSIM LPA)
