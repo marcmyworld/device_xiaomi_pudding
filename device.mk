@@ -16,6 +16,9 @@ PRODUCT_COPY_FILES += \
 # Camera
 $(call inherit-product-if-exists, device/xiaomi/miuicamera-pudding/miuicamera.mk)
 
+# Dolby
+$(call inherit-product-if-exists, hardware/hellodolby/hellodolby.mk)
+
 # Fingerprint
 PRODUCT_PACKAGES += \
     init.fingerprint.pudding.rc \
